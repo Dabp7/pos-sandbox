@@ -1,0 +1,51 @@
+{
+    "name":  "pos-sandbox",
+    "version":  "0.1.0",
+    "private":  true,
+    "type":  "module",
+    "workspaces":  [
+                       "apps/*"
+                   ],
+    "engines":  {
+                    "node":  "\u003e=22.13.0"
+                },
+    "scripts":  {
+                    "start":  "npm run start --workspace apps/mobile",
+                    "android":  "npm run android --workspace apps/mobile",
+                    "web":  "npm run web --workspace apps/mobile",
+                    "api":  "tsx --env-file-if-exists=.env apps/api/src/index.ts",
+                    "db:migrate":  "tsx --env-file-if-exists=.env apps/api/src/migrate.ts",
+                    "typecheck":  "tsc --noEmit",
+                    "test":  "vitest run",
+                    "test:integration":  "node scripts/require-integration.mjs \u0026\u0026 vitest run tests/api.integration.test.ts",
+                    "test:web":  "node tests/web.e2e.mjs",
+                    "web:preview":  "node scripts/serve-web.mjs",
+                    "build:web":  "npm run export:web --workspace apps/mobile",
+                    "verify":  "npm run typecheck \u0026\u0026 npm run lint \u0026\u0026 npm test \u0026\u0026 npm run build:web",
+                    "lint":  "npm run lint --workspace apps/mobile"
+                },
+    "dependencies":  {
+                         "zod":  "4.6.7"
+                     },
+    "overrides":  {
+                      "@expo/fingerprint":  {
+                                                "minimatch":  "11.0.9"
+                                            },
+                      "expo":  "58.0.26",
+                      "expo-modules-core":  "58.1.0"
+                  },
+    "devDependencies":  {
+                            "@playwright/test":  "1.65.1",
+                            "@types/cors":  "2.8.19",
+                            "@types/express":  "5.0.6",
+                            "@types/node":  "22.15.0",
+                            "@types/pg":  "8.15.6",
+                            "@types/supertest":  "6.0.3",
+                            "expo":  "58.0.26",
+                            "minimatch":  "11.0.9",
+                            "supertest":  "7.1.4",
+                            "tsx":  "4.23.15",
+                            "typescript":  "~6.0.3",
+                            "vitest":  "5.1.2"
+                        }
+}

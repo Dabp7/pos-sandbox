@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-27",
+  "platform": "Android emulator API 36 x86_64",
+  "runtime": "Expo Go 58.0.6",
+  "expo": "58.0.26",
+  "reactNative": "0.88.1",
+  "database": "Expo SQLite native, pos-native-evidence.db",
+  "saleId": "1c2d3e4f-5060-4789-8abc-def012345678",
+  "postgresqlRowCountAfterSync": 1,
+  "observedResults": [
+    {"ok":true,"phase":"save","sqlite":"native","persisted":true,"saleId":"1c2d3e4f-5060-4789-8abc-def012345678","totalMinor":5746},
+    {"ok":true,"phase":"read","sqlite":"native","survivedProcessDeath":true,"printFailurePreservesSale":true,"copy":true,"totalMinor":5746},
+    {"ok":true,"phase":"sync","sqlite":"native","responseLostAfterCommit":true,"synced":true,"saleId":"1c2d3e4f-5060-4789-8abc-def012345678"}
+  ],
+  "processDeath": "adb shell am force-stop host.exp.exponent between save and read",
+  "network": "wifi and data disabled for read, restored before sync; Metro accessed by adb reverse localhost",
+  "hardwarePayments": false,
+  "physicalPrinter": false
+}

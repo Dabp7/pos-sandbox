@@ -1,0 +1,48 @@
+name: Verify POS Sandbox
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: demo
+          POSTGRES_PASSWORD: demo
+          POSTGRES_DB: possandbox_test
+        ports: ['55432:5432']
+        options: >-
+          --health-cmd "pg_isready -U demo -d possandbox_test"
+          --health-interval 3s --health-timeout 3s --health-retries 15
+    env:
+      TEST_DATABASE_URL: postgres://demo:demo@localhost:55432/possandbox_test
+      DATABASE_URL: postgres://demo:demo@localhost:55432/possandbox_test
+      CI: '1'
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run lint --workspace apps/mobile
+      - run: npm run build:web
+      - run: npx expo install --check
+        working-directory: apps/mobile
+      - run: npx playwright install --with-deps chromium
+      - name: Verify browser demo against PostgreSQL API
+        run: |
+          npm run api > /tmp/pos-api.log 2>&1 &
+          api_pid=$!
+          npm run web:preview > /tmp/pos-web.log 2>&1 &
+          web_pid=$!
+          trap 'kill "$api_pid" "$web_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://localhost:4310/health >/dev/null && curl -fsS http://localhost:4311 >/dev/null; then break; fi
+            sleep 1
+          done
+          npm run test:web

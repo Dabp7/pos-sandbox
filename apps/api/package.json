@@ -1,0 +1,1 @@
+{"name":"@pos/api","version":"0.1.0","private":true,"type":"module","scripts":{"dev":"tsx src/index.ts","verify":"npm --prefix ../.. run typecheck && npm --prefix ../.. test"},"dependencies":{"cors":"2.8.5","express":"5.1.0","pg":"8.16.3","zod":"4.6.7"}}

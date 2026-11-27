@@ -1,0 +1,12 @@
+node_modules/
+.expo/
+dist/
+coverage/
+.env
+*.db
+*.db-shm
+*.db-wal
+.data/
+*.log
+android/
+ios/
