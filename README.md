@@ -46,6 +46,7 @@ El impuesto de 12% es una regla **de demostración**, no asesoría tributaria. P
 
 ```sh
 npm run typecheck
+node scripts/verify-lock.mjs
 npm test
 npm run build:web
 npm run web:preview
@@ -66,6 +67,8 @@ npm run test:integration
 ```
 
 CI define esa variable y prueba contra un servicio PostgreSQL real. Las pruebas de persistencia usan SQLite real de Node; no equivalen a ejecutar SQLite nativo dentro de Android. La evidencia y las comprobaciones pendientes están en `docs/evidence/verification.md`.
+
+El lock incluye los paquetes binarios opcionales de Windows, Linux, macOS y otras arquitecturas. `verify-lock.mjs` comprueba esas referencias sin instalar dependencias y también corre antes de `npm ci` en CI. Al actualizar dependencias, genere el lock con npm 11 desde una carpeta temporal vacía que contenga únicamente los manifests del workspace, sin `node_modules` ni un lock anterior, usando `npm install --package-lock-only --ignore-scripts --include=optional`. Generarlo sobre un árbol ya instalado puede podar las plataformas que no son la del equipo.
 
 ## API
 
