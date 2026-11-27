@@ -26,6 +26,7 @@ jobs:
         with:
           node-version: '24'
           cache: npm
+      - run: node scripts/verify-lock.mjs
       - run: npm ci
       - run: npm run typecheck
       - run: npm test
